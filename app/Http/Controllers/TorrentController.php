@@ -68,9 +68,17 @@ class TorrentController extends Controller
     /**
      * Displays Torrent List View.
      */
-    public function torrents(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    public function torrents(): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
     {
         return \view('torrent.torrents');
+    }
+
+    /**
+     * Displays Torrent Grouped View.
+     */
+    public function grouped(): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    {
+        return \view('torrent.grouped');
     }
 
     /**

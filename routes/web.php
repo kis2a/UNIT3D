@@ -260,6 +260,7 @@ Route::group(['middleware' => 'language'], function () {
 
         Route::group(['prefix' => 'torrents'], function () {
             Route::get('/', [App\Http\Controllers\TorrentController::class, 'torrents'])->name('torrents');
+            Route::get('/grouped', [App\Http\Controllers\TorrentController::class, 'grouped'])->name('grouped');
             Route::get('/{id}{hash?}', [App\Http\Controllers\TorrentController::class, 'torrent'])->name('torrent');
             Route::get('/{id}/peers', [App\Http\Controllers\TorrentController::class, 'peers'])->name('peers');
             Route::get('/{id}/history', [App\Http\Controllers\TorrentController::class, 'history'])->name('history');
