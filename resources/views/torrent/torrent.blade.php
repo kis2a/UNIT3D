@@ -755,6 +755,12 @@
 		    			        <tr>
 		    				        <td>
 		    				    	    <div class="panel-body">
+                                            <div class="torrent-mediainfo-dump" style="opacity: 1; display: none;" x-show="show">
+                                                <div>
+                                                    <span class="text-center text-bold">Full MediaInfo Dump</span>
+                                                    <pre class="decoda-code"><code>{{ $torrent->mediainfo }}</code></pre>
+                                                </div>
+                                            </div>
 		    				    		    <div class="slidingDiv2">
 		    				    			    <div class="text-left text-main mediainfo-filename" style="border-bottom: 1px solid #444444; padding-bottom: 5px; margin-bottom: 5px;">
 		    				    				    @if ($mediaInfo !== null && isset($mediaInfo['general']['file_name']))
@@ -784,7 +790,7 @@
 		    				    								    <div><u style="font-weight: bold;">Color Primaries:</u> {{ $videoElement['color_primaries'] ?? trans('common.unknown') }}</div>
 		    				    								    <div><u style="font-weight: bold;">Transfer Characteristics:</u> {{ $videoElement['transfer_characteristics'] ?? trans('common.unknown') }}</div>
 		    				    							    @endif
-		    				    							    @if(count($mediaInfo['video']) > 1) <div style="border-top: 1px solid #444444; padding-top: 5px; margin-top: 5px; width: 75%;"></div> @endif
+		    				    							    @if (! $loop->last) <div style="border-top: 1px solid #444444; padding-top: 5px; margin-top: 5px; width: 75%;"></div> @endif
 		    				    						    @endforeach
 		    				    					    @endif
 		    				    				    </div>
@@ -794,7 +800,7 @@
 		    				    						    @foreach ($mediaInfo['audio'] as $key => $audioElement)
 		    				    							    <div>Track {{ ++$key }}:</div>
 		    				    						        <div>{{ $audioElement['language'] ?? trans('common.unknown') }} | {{ $audioElement['format'] ?? trans('common.unknown') }} | {{ $audioElement['channels'] ?? trans('common.unknown') }} | {{ $audioElement['bit_rate'] ?? trans('common.unknown') }} | {{ $audioElement['title'] ?? trans('common.unknown') }}</div>
-		    				    							    @if(count($mediaInfo['audio']) > 1) <div style="border-top: 1px solid #444444; padding-top: 5px; margin-top: 5px; width: 75%;"></div> @endif
+		    				    							    @if (! $loop->last) <div style="border-top: 1px solid #444444; padding-top: 5px; margin-top: 5px; width: 75%;"></div> @endif
 		    				    						    @endforeach
 		    				    					    @endif
 		    				    				    </div>
@@ -820,13 +826,6 @@
 									    	    	    @endif
 									    	        @endforeach
 									            @endif
-								            </div>
-
-								            <div class="torrent-mediainfo-dump" style="opacity: 1; display: none;" x-show="show">
-									            <div style="border-top: 1px solid #444444; padding-top: 5px; margin-top: 5px;">
-									        	    <span class="text-center text-bold">Full MediaInfo Dump</span>
-									        		<pre class="decoda-code"><code>{{ $torrent->mediainfo }}</code></pre>
-									            </div>
 								            </div>
 						    	        </div>
 						            </td>

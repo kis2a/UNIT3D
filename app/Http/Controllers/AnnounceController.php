@@ -96,6 +96,11 @@ class AnnounceController extends Controller
             $torrent = $this->checkTorrent($queries['info_hash']);
 
             /**
+             * Check if a user is announcing a torrent as completed but no peer is in db.
+             */
+            $this->checkPeer($torrent, $queries, $user);
+
+            /**
              * Lock Min Announce Interval.
              */
             $this->checkMinInterval($queries, $user);
@@ -352,6 +357,21 @@ class AnnounceController extends Controller
     }
 
     /**
+     * @throws \App\Exceptions\TrackerException
+     */
+    private function checkPeer($torrent, $queries, $user): void
+    {
+        $peer = Peer::where('torrent_id', '=', $torrent->id)
+            ->where('peer_id', $queries['peer_id'])
+            ->where('user_id', '=', $user->id)
+            ->first();
+
+        if ($peer === null && \strtolower($queries['event']) === 'completed') {
+            throw new TrackerException(152);
+        }
+    }
+
+    /**
      * @param $queries
      * @param $user
      *
@@ -431,7 +451,12 @@ class AnnounceController extends Controller
             $limit = ($queries['numwant'] <= 50 ? $queries['numwant'] : 50);
 
             // Get Torrents Peers
-            $peers = Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
+            if ($queries['left'] == 0) {
+                // Only include leechers in a seeder's peerlist
+                $peers = Peer::where('torrent_id', '=', $torrent->id)->where('seeder', '=', 0)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
+            } else {
+                $peers = Peer::where('torrent_id', '=', $torrent->id)->where('user_id', '!=', $user->id)->take($limit)->get()->toArray();
+            }
 
             $repDict['peers'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id']);
             $repDict['peers6'] = $this->givePeers($peers, $queries['compact'], $queries['no_peer_id'], FILTER_FLAG_IPV6);

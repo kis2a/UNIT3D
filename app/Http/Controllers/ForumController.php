@@ -313,7 +313,7 @@ class ForumController extends Controller
      *
      * @param \App\Models\Forum $id
      */
-    public function show($id): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    public function show($id): \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         // Find the topic
         $forum = Forum::findOrFail($id);
@@ -331,7 +331,7 @@ class ForumController extends Controller
         }
 
         // Check if the user has permission to view the forum
-        $category = Forum::findOrFail($forum->parent_id);
+        $category = Forum::findOrFail($forum->id);
         if ($category->getPermission()->show_forum != true) {
             return \redirect()->route('forums.index')
                 ->withErrors('You Do Not Have Access To This Forum!');
