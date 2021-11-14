@@ -185,9 +185,9 @@ class TorrentGroupedSearch extends Component
         $mcat = Category::whereMovieMeta(1)->pluck('id')->toArray();
         $tvcat = Category::whereTvMeta(1)->pluck('id')->toArray();
         $mcat = array_intersect($mcat, $this->categories);
-        $tvcat =  array_intersect($tvcat, $this->categories);
+        $tvcat = array_intersect($tvcat, $this->categories);
 
-        $Search = \App\Models\Torrent::when($Q, function ($query) use ($Q){
+        $Search = \App\Models\Torrent::when($Q, function ($query) use ($Q) {
             $terms = \explode(' ', $Q);
             $search = '';
             foreach ($terms as $term) {
@@ -333,10 +333,10 @@ class TorrentGroupedSearch extends Component
             $movies = \App\Models\Movie::whereIn('id', $mtmdb)->paginate($this->perPage);
             foreach($movies as $movie) {
                 $temp = [];
-                foreach($movie->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
+                foreach ($movie->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
                             ->withCount(['thanks', 'comments'])->get() as $torrent) {
                     array_push($temp, $torrent);
-                };
+                }
                 $mtorrents[$movie->id] = collect($temp)->sortByDesc('bumped_at');
             }
         }
@@ -350,10 +350,10 @@ class TorrentGroupedSearch extends Component
             $TV = \App\Models\Tv::whereIn('id', $tvtmdb)->paginate($this->perPage);
             foreach($TV as $show) {
                 $temp = [];
-                foreach($show->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
+                foreach ($show->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
                             ->withCount(['thanks', 'comments'])->get() as $torrent) {
                     array_push($temp, $torrent);
-                };
+                }
                 $mtorrents[$show->id] = collect($temp)->sortByDesc('bumped_at');
             }
         }
@@ -364,9 +364,8 @@ class TorrentGroupedSearch extends Component
             }),
             'movie-meta' => collect($mtorrents)->sortByDesc(function ($product, $key) {
                 return $product[0]->bumped_at;
-            })
+            }),
         ];
-
     }
 
     private static function parseKeywords($text): array
