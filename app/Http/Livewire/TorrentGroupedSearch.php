@@ -184,7 +184,7 @@ class TorrentGroupedSearch extends Component
         $Q = $this->name;
         $mcat = Category::whereMovieMeta(1)->pluck('id')->toArray();
         $tvcat = Category::whereTvMeta(1)->pluck('id')->toArray();
-        if(count($this->categories) > 0) {
+        if (count($this->categories) > 0) {
             $mcat = array_intersect($mcat, $this->categories);
             $tvcat = array_intersect($tvcat, $this->categories);
         }
