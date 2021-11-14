@@ -332,9 +332,9 @@ class TorrentGroupedSearch extends Component
             $mtmdb = Torrent::query()
                 ->whereIn('category_id', $mcat)
                 ->whereIn('id', $Search)
-                ->groupBy('tmdb')
-                ->pluck('tmdb')->unique()->toArray();
-            $movies = Movie::whereIn('id', $mtmdb)->paginate($this->perPage);
+                ->distinct('tmdb')
+                ->pluck('tmdb')->toArray();
+            $movies = \App\Models\Movie::whereIn('id', $mtmdb)->paginate($this->perPage);
             foreach ($movies as $movie) {
                 $temp = [];
                 foreach ($movie->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
@@ -349,16 +349,16 @@ class TorrentGroupedSearch extends Component
             $tvtmdb = Torrent::query()
             ->whereIn('category_id', $tvcat)
             ->whereIn('id', $Search)
-            ->groupBy('tmdb')
-            ->pluck('tmdb')->unique()->toArray();
-            $TV = Tv::whereIn('id', $tvtmdb)->paginate($this->perPage);
+            ->distinct('tmdb')
+            ->pluck('tmdb')->toArray();
+            $TV = \App\Models\Tv::whereIn('id', $tvtmdb)->paginate($this->perPage);
             foreach ($TV as $show) {
                 $temp = [];
                 foreach ($show->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
                             ->withCount(['thanks', 'comments'])->get() as $torrent) {
                     $temp[] = $torrent;
                 }
-                $mtorrents[$show->id] = collect($temp)->sortByDesc('bumped_at');
+                $tvtorrents[$show->id] = collect($temp)->sortByDesc('bumped_at');
             }
         }
 
