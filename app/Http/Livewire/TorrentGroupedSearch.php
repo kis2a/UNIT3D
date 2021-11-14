@@ -13,6 +13,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Tv;
+use App\Models\Movie;
+use App\Models\Torrent;
 use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\History;
@@ -189,7 +192,7 @@ class TorrentGroupedSearch extends Component
             $tvcat = array_intersect($tvcat, $this->categories);
         }
 
-        $Search = \App\Models\Torrent::when($Q, function ($query) use ($Q) {
+        $Search = Torrent::when($Q, function ($query) use ($Q) {
             $terms = \explode(' ', $Q);
             $search = '';
             foreach ($terms as $term) {
@@ -232,7 +235,6 @@ class TorrentGroupedSearch extends Component
                 $movieCollection = DB::table('genre_movie')->whereIn('genre_id', $this->genres)->pluck('movie_id');
                 $mergedCollection = $tvCollection->merge($movieCollection);
                 $query->whereRaw("tmdb in ('".\implode("','", $mergedCollection->toArray())."')"); // Protected with Validation that IDs passed are not malicious
-                //$query->whereIn('tmdb', $mergedCollection); Very SLOW!
             })
             ->when($this->tmdbId === '0' || $this->tmdbId, function ($query) {
                 $query->where('tmdb', '=', $this->tmdbId);
@@ -326,47 +328,43 @@ class TorrentGroupedSearch extends Component
         $mtorrents = [];
         $tvtorrents = [];
 
-        if (count($mcat) > 0) {
-            $mtmdb = \App\Models\Torrent::query()
+        if (\count($mcat) > 0) {
+            $mtmdb = Torrent::query()
                 ->whereIn('category_id', $mcat)
                 ->whereIn('id', $Search)
                 ->groupBy('tmdb')
                 ->pluck('tmdb')->unique()->toArray();
-            $movies = \App\Models\Movie::whereIn('id', $mtmdb)->paginate($this->perPage);
+            $movies = Movie::whereIn('id', $mtmdb)->paginate($this->perPage);
             foreach ($movies as $movie) {
                 $temp = [];
                 foreach ($movie->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
                             ->withCount(['thanks', 'comments'])->get() as $torrent) {
-                    array_push($temp, $torrent);
+                    $temp[] = $torrent;
                 }
                 $mtorrents[$movie->id] = collect($temp)->sortByDesc('bumped_at');
             }
         }
 
-        if (count($tvcat) > 0) {
-            $tvtmdb = \App\Models\Torrent::query()
+        if (\count($tvcat) > 0) {
+            $tvtmdb = Torrent::query()
             ->whereIn('category_id', $tvcat)
             ->whereIn('id', $Search)
             ->groupBy('tmdb')
             ->pluck('tmdb')->unique()->toArray();
-            $TV = \App\Models\Tv::whereIn('id', $tvtmdb)->paginate($this->perPage);
+            $TV = Tv::whereIn('id', $tvtmdb)->paginate($this->perPage);
             foreach ($TV as $show) {
                 $temp = [];
                 foreach ($show->torrents()->whereIn('id', $Search)->with(['user:id,username,group_id', 'category', 'type', 'resolution'])
                             ->withCount(['thanks', 'comments'])->get() as $torrent) {
-                    array_push($temp, $torrent);
+                    $temp[] = $torrent;
                 }
                 $mtorrents[$show->id] = collect($temp)->sortByDesc('bumped_at');
             }
         }
 
         return [
-            'tv-meta' => collect($tvtorrents)->sortByDesc(function ($product, $key) {
-                return $product[0]->bumped_at;
-            }),
-            'movie-meta' => collect($mtorrents)->sortByDesc(function ($product, $key) {
-                return $product[0]->bumped_at;
-            }),
+            'tv-meta' => collect($tvtorrents)->sortByDesc(fn($product, $key) => $product[0]->bumped_at),
+            'movie-meta' => collect($mtorrents)->sortByDesc(fn($product, $key) => $product[0]->bumped_at),
         ];
     }
 
@@ -376,7 +374,7 @@ class TorrentGroupedSearch extends Component
         $result = [];
         foreach ($parts as $part) {
             $part = \trim($part);
-            if ($part != '') {
+            if ($part !== '') {
                 $result[] = $part;
             }
         }
