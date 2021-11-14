@@ -184,8 +184,10 @@ class TorrentGroupedSearch extends Component
         $Q = $this->name;
         $mcat = Category::whereMovieMeta(1)->pluck('id')->toArray();
         $tvcat = Category::whereTvMeta(1)->pluck('id')->toArray();
-        $mcat = array_intersect($mcat, $this->categories);
-        $tvcat = array_intersect($tvcat, $this->categories);
+        if(count($this->categories) > 0) {
+            $mcat = array_intersect($mcat, $this->categories);
+            $tvcat = array_intersect($tvcat, $this->categories);
+        }
 
         $Search = \App\Models\Torrent::when($Q, function ($query) use ($Q) {
             $terms = \explode(' ', $Q);
