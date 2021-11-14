@@ -13,15 +13,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Tv;
-use App\Models\Movie;
-use App\Models\Torrent;
 use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\History;
 use App\Models\Keyword;
+use App\Models\Movie;
 use App\Models\PersonalFreeleech;
 use App\Models\PlaylistTorrent;
+use App\Models\Torrent;
+use App\Models\Tv;
 use App\Models\User;
 use App\Models\Wish;
 use Illuminate\Support\Facades\DB;
@@ -363,8 +363,8 @@ class TorrentGroupedSearch extends Component
         }
 
         return [
-            'tv-meta' => collect($tvtorrents)->sortByDesc(fn($product, $key) => $product[0]->bumped_at),
-            'movie-meta' => collect($mtorrents)->sortByDesc(fn($product, $key) => $product[0]->bumped_at),
+            'tv-meta'    => collect($tvtorrents)->sortByDesc(fn ($product, $key) => $product[0]->bumped_at),
+            'movie-meta' => collect($mtorrents)->sortByDesc(fn ($product, $key) => $product[0]->bumped_at),
         ];
     }
 
