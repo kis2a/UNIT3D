@@ -108,20 +108,12 @@ config/secure-headers.php   <-- Content Security Policy must be disabled
 
 **For Ubuntu 20.04 LTS:**
 ```
-git clone https://github.com/poppabear8883/UNIT3D-INSTALLER.git installer
+git clone https://github.com/kis2a/INSTALLER-UNIT3D.git installer
 cd installer
 sudo ./install.sh
 ```
 
-**For Ubuntu 16.04 LTS or Ubuntu 18.04 LTS:**
-```
-git clone https://github.com/poppabear8883/UNIT3D-INSTALLER.git installer
-cd installer
-git checkout Ubuntu-16.04-18.04
-sudo ./install.sh
-```
-
-Check it out here for more information: https://github.com/poppabear8883/UNIT3D-INSTALLER
+Check it out here for more information: https://github.com/kis2a/INSTALLER-UNIT3D
 
 ### Demo Data
 
@@ -142,86 +134,4 @@ Use this command to generate demo users and torrents for testing purposes:
  2.0.0 to 2.2.7|  End Of Life :skull: | >= 7.3
  1.0 to 1.9.4|  End Of Life :skull:     | >= 7.1.3
 
-## <a name="security"></a> 🔐 Security
 
-If you discover any security related issues, please email hdinnovations@protonmail.com instead of using the issue tracker.
-
-## <a name="contributing"></a> ✍️ Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
-
-## <a name="license"></a> 📝 License
-
-UNIT3D is open-sourced software licensed under the [GNU Affero General Public License v3.0](https://github.com/HDInnovations/UNIT3D/blob/master/LICENSE).
-
-<b> As per license do not remove the license from sourcecode files
-```
-/**
- * NOTICE OF LICENSE.
- *
- * UNIT3D Community Edition is open-sourced software licensed under the GNU Affero General Public License v3.0
- * The details is bundled with this project in the file LICENSE.txt.
- *
- * @project    UNIT3D Community Edition
- *
- * @author     HDVinnie <hdinnovations@protonmail.com>
- * @license    https://www.gnu.org/licenses/agpl-3.0.en.html/ GNU Affero General Public License v3.0
- */
-```
-
- Or the credits from footer in `/resources/views/partials/footer.blade.php`
-```
-<li>
-<a href="https://github.com/HDInnovations/UNIT3D-Community-Edition" target="_blank" class="btn btn-xs btn-primary">@lang('common.powered-by')</a>
-</li>
-```
-</b>
-
-## <a name="demo"></a>  🖥️ Demo
-
-URL: https://unit3d.site
-
-Username: UNIT3D
-
-Password: UNIT3D
-
-Demo is reset every 72 hours!
-
-## <a name="chat"></a>  💬 Sponsors Can Chat With Us
-
-URL: https://discord.gg/J8dsx7F5yT
-
-## <a name="sponsor"></a> ✨ Sponsor UNIT3D (HDInnovations / HDVinnie)
-
-You can support my work if you are enjoying UNIT3D and my other projects under HDInnovations, this really keeps me up for fixing problems and adding new features. Also helps pay for the demo server + domain. Plus some beer to keep me sane. 
-
-Monthy Recurring:
-
-https://github.com/sponsors/HDVinnie?frequency=recurring&sponsor=HDVinnie
-
-One-time Custom Amount:
-
-https://github.com/sponsors/HDVinnie?frequency=one-time&sponsor=HDVinnie
-
-Some folks have asked me if it's possible to do a one-time donation via Crypto Currency or CashApp. Yes! If you would like to contribute via a crypto-currency not listed please let me know.
-
-CashApp - $hdvinnie
-
-Bitcoin (BTC) - 3HUVkv3Q8b5nbxa9DtXG1dm4RdTJaTFRfc
-
-Bitcoin Cash (BCH) - qp3wgpnwzpj4v9sq90wflsca8p5s75glrvga9tweu2
-
-Ether (ETH) - 0x5eFF42F65234aD9c6A0CA5B9495f3c6D205bBC27
-
-Litecoin (LTC) - MDLKyHzupt1mchuo8mrjW9mihkKp1LD4nG
-
-
-## <a name="thanks"></a> 🎉 Special Thanks
-
-<a href="https://www.jetbrains.com/?from=UNIT3D"><img src="https://i.imgur.com/KgDXZV8.png" height="50px;"></a>
-<a href="https://www.themoviedb.org/"><img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" height="50px;"></a>
-<a href="https://github.com"><img src="https://i.imgur.com/NVWhzrU.png" height="50px;"></a>
-<a href="https://laravel.com"><img src="https://i.postimg.cc/cCDBswfK/1200px-Laravel-svg.png" height="50px;"></a>
-<a href="https://laravel-livewire.com"><img src="https://i.postimg.cc/jjsNyBbh/Livewire.png" height="50px;"></a>
-<a href="https://alpinejs.dev"><img src="https://i.postimg.cc/28pWk0M1/alpinejs-logo.png" height="50px;"></a>
-<a href="https://styleci.io"><img src="https://i.postimg.cc/0y4XN4yW/og.png" height="50px;"></a>
